@@ -19,26 +19,27 @@ GPT and GPT-2 are fine-tuned using a causal language modeling (CLM) loss while B
 using a masked language modeling (MLM) loss.
 """
 
-import os
-import logging
 import argparse
+import logging
 import math
-import numpy as np
-from tqdm import tqdm
 import multiprocessing
+import os
 import time
 
+import numpy as np
 import torch
-from torch.utils.tensorboard import SummaryWriter
-from torch.utils.data import DataLoader, SequentialSampler, RandomSampler
+from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from torch.utils.data.distributed import DistributedSampler
+from torch.utils.tensorboard import SummaryWriter
+from tqdm import tqdm
 from transformers import AdamW, get_linear_schedule_with_warmup
-from models import build_or_load_gen_model
+
+from configs import add_args, set_dist, set_seed
 from evaluator import smooth_bleu
-from evaluator.CodeBLEU import calc_code_bleu
 from evaluator.bleu import _bleu
-from utils import get_filenames, get_elapse_time, load_and_cache_gen_data
-from configs import add_args, set_seed, set_dist
+from evaluator.CodeBLEU import calc_code_bleu
+from models import build_or_load_gen_model
+from utils import get_elapse_time, get_filenames, load_and_cache_gen_data
 
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",

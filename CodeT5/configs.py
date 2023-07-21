@@ -1,8 +1,9 @@
-import random
-import torch
 import logging
 import multiprocessing
+import random
+
 import numpy as np
+import torch
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,7 @@ def add_args(parser):
             "multi_task",
         ],
     )
-    parser.add_argument("--sub_task", type=str, default="")
+    parser.add_argument("--sub_task", type=str, default="", required=False)
     parser.add_argument("--lang", type=str, default="")
     parser.add_argument("--eval_task", type=str, default="")
     parser.add_argument(
