@@ -1,0 +1,1 @@
+gsutil -m cp -r "gs://sfr-codet5-data-research/data" .

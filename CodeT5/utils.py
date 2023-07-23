@@ -9,6 +9,14 @@ from torch.utils.data import TensorDataset
 from tqdm import tqdm
 
 from _utils import *
+from _utils import (
+    read_summarize_examples,
+    read_refine_examples,
+    read_translate_examples,
+    read_concode_examples,
+    read_clone_examples,
+    read_defect_examples,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +68,7 @@ def load_and_cache_gen_data(
             data = TensorDataset(all_source_ids, all_target_ids)
         if args.local_rank in [-1, 0] and not is_sample:
             torch.save(data, cache_fn)
+
     return examples, data
 
 

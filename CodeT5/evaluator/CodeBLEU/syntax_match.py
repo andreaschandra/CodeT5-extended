@@ -1,8 +1,8 @@
 # Copyright (c) Microsoft Corporation. 
 # Licensed under the MIT license.
 
-from CodeT5.evaluator.CodeBLEU.parser import DFG_python, DFG_java, DFG_ruby, DFG_go, DFG_php, DFG_javascript, DFG_csharp
-from CodeT5.evaluator.CodeBLEU.parser import (remove_comments_and_docstrings)
+from evaluator.CodeBLEU.parser import DFG_python, DFG_java, DFG_ruby, DFG_go, DFG_php, DFG_javascript, DFG_csharp
+from evaluator.CodeBLEU.parser import (remove_comments_and_docstrings)
 from tree_sitter import Language, Parser
 import os
 

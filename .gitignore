@@ -1,2 +1,7 @@
 .vscode
+
+# CodeT5 Outputs
 CodeT5/sh/saved_models/
+CodeT5/sh/tensorboard/
+CodeT5/data/
+logs/

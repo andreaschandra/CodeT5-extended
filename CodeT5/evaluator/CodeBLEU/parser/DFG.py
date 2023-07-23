@@ -533,9 +533,6 @@ def DFG_csharp(root_node,index_to_code,states):
         
         return sorted(DFG,key=lambda x:x[1]),states
 
-
-    
-    
 def DFG_ruby(root_node,index_to_code,states):
     assignment=['assignment','operator_assignment']
     if_statement=['if','elsif','else','unless','when']
@@ -837,9 +834,6 @@ def DFG_go(root_node,index_to_code,states):
         
         return sorted(DFG,key=lambda x:x[1]),states
 
-    
-    
-
 def DFG_php(root_node,index_to_code,states):
     assignment=['assignment_expression','augmented_assignment_expression']
     def_statement=['simple_parameter']
@@ -1025,7 +1019,6 @@ def DFG_php(root_node,index_to_code,states):
         
         return sorted(DFG,key=lambda x:x[1]),states
 
-
 def DFG_javascript(root_node,index_to_code,states):
     assignment=['assignment_pattern','augmented_assignment_expression']
     def_statement=['variable_declarator']
@@ -1179,6 +1172,3 @@ def DFG_javascript(root_node,index_to_code,states):
                 DFG+=temp
         
         return sorted(DFG,key=lambda x:x[1]),states
-
-
-     

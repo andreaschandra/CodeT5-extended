@@ -1,1 +1,9 @@
+numpy
 tensorboard
+torch
+transformers
+scikit-learn
+tqdm
+
+# CodeBLEU
+tree_sitter
