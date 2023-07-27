@@ -214,16 +214,20 @@ def main():
     set_seed(args)
     config, model, tokenizer = build_or_load_gen_model(args)
     model.to(args.device)
+
     if args.n_gpu > 1:
         # for DataParallel
         model = torch.nn.DataParallel(model)
+
     pool = multiprocessing.Pool(args.cpu_cont)
     args.train_filename, args.dev_filename, args.test_filename = get_filenames(
         args.data_dir, args.task, args.sub_task
     )
     fa = open(os.path.join(args.output_dir, "summary.log"), "a+")
 
+    logger.info(f"args.do_train {args.do_train}")
     if args.do_train:
+        logger.info("Training...")
         if args.local_rank in [-1, 0] and args.data_num == -1:
             summary_fn = "{}/{}".format(
                 args.summary_dir, "/".join(args.output_dir.split("/")[1:])
@@ -231,14 +235,23 @@ def main():
             tb_writer = SummaryWriter(summary_fn)
 
         # Prepare training data loader
+        logger.info("Load and cache gen data...")
         train_examples, train_data = load_and_cache_gen_data(
-            args, args.train_filename, pool, tokenizer, "train"
+            args,
+            args.train_filename,
+            pool,
+            tokenizer,
+            "train",
+            only_src=False,
+            is_sample=True,
         )
+        logger.info("Run RandomSampler...")
         train_sampler = (
             RandomSampler(train_data)
             if args.local_rank == -1
             else DistributedSampler(train_data)
         )
+        logger.info("Run DataLoader...")
         train_dataloader = DataLoader(
             train_data,
             sampler=train_sampler,
@@ -248,6 +261,7 @@ def main():
         )
 
         # Prepare optimizer and schedule (linear warmup and decay)
+        logger.info("Setup Optimizer and Scheduler...")
         no_decay = ["bias", "LayerNorm.weight"]
         optimizer_grouped_parameters = [
             {
