@@ -36,10 +36,12 @@ def load_and_cache_gen_data(
 
     if is_sample:
         examples = random.sample(examples, min(5000, len(examples)))
+
     if split_tag == "train":
         calc_stats(examples, tokenizer, is_tokenize=True)
     else:
         calc_stats(examples)
+
     if os.path.exists(cache_fn) and not is_sample:
         logger.info("Load cache data from %s", cache_fn)
         data = torch.load(cache_fn)
@@ -48,17 +50,21 @@ def load_and_cache_gen_data(
             logger.info("Sample 5k data for computing bleu from %s", filename)
         else:
             logger.info("Create cache data into %s", cache_fn)
+
         tuple_examples = [
             (example, idx, tokenizer, args, split_tag)
             for idx, example in enumerate(examples)
         ]
+
         features = pool.map(
             convert_examples_to_features,
             tqdm(tuple_examples, total=len(tuple_examples)),
         )
+
         all_source_ids = torch.tensor(
             [f.source_ids for f in features], dtype=torch.long
         )
+
         if split_tag == "test" or only_src:
             data = TensorDataset(all_source_ids)
         else:
@@ -66,6 +72,7 @@ def load_and_cache_gen_data(
                 [f.target_ids for f in features], dtype=torch.long
             )
             data = TensorDataset(all_source_ids, all_target_ids)
+
         if args.local_rank in [-1, 0] and not is_sample:
             torch.save(data, cache_fn)
 

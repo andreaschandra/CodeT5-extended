@@ -212,6 +212,7 @@ def main():
 
     set_dist(args)
     set_seed(args)
+    logging.info("build_or_load_gen_model...")
     config, model, tokenizer = build_or_load_gen_model(args)
     model.to(args.device)
 
@@ -225,7 +226,7 @@ def main():
     )
     fa = open(os.path.join(args.output_dir, "summary.log"), "a+")
 
-    logger.info(f"args.do_train {args.do_train}")
+    logger.info("args.do_train: %s", args.do_train)
     if args.do_train:
         logger.info("Training...")
         if args.local_rank in [-1, 0] and args.data_num == -1:
